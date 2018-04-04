@@ -1,10 +1,22 @@
 
 #include <iostream>
+#include <thread>
 
 #include "plane.cpp"
+//#include "airport.cpp"
 
 using namespace std;
 //these will just be abunch of functions to help draw the airport using the plane class
+void pause(int dur){
+    int temp = time(NULL) + dur;
+    while(temp > time(NULL));
+}
+
+void test_thread(){
+    
+}
+
+
 class graphics_airport{
     public:
         graphics_airport(){
@@ -24,7 +36,7 @@ class graphics_airport{
         }
         
         void empty(){
-            
+            //this is changed so much that do not use this template..
             master = string(50,'\n');
             master += " -------------------------------------------------------------------------------------| " + airport_name + "\n";
             master += "|  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _          __________  | Plane Wait List\n";
@@ -57,40 +69,55 @@ class graphics_airport{
         
         void repaint(){
             master = string(50,'\n');
-            master += " -------------------------------------------------------------------------------------| " + airport_name + "\n";
-            master += "|  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _          __________  | Plane Wait List\n";
-            if(waitlist.size() >= 1){master += "| +                                                             +        |          | | " + waitlist.at(0).getPlane_Menu(1) + "\n";}
-            else{master += "| +                                                             +        |          | |\n";}
-            if(waitlist.size() >= 2){master += "| + 3                                                           +        |   Fire   | | " + waitlist.at(1).getPlane_Menu(2) + "\n";}
-            else{master += "| + 3                                                           +        |   Fire   | |\n";}
-            if(waitlist.size() >= 3){master += "| +_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _+        |   Dpt.   | | " + waitlist.at(2).getPlane_Menu(3) + "\n";}
-            else{master += "| +_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _+        |   Dpt.   | |\n";}
-            if(waitlist.size() >= 4){master += "|                                                                        |          | | " + waitlist.at(3).getPlane_Menu(4) + "\n";}
-            else{master += "|                                                                        |          | |\n";}
-            if(waitlist.size() >= 5){master += "|   +++++    +++++                                                       |    #     | | " + waitlist.at(4).getPlane_Menu(5) + "\n";}
-            else{master += "|   +++++    +++++                                                       |    #     | |\n";}
-            if(waitlist.size() >= 6){master += "|  |     |  |     |                                                      =   ###    | | " + waitlist.at(5).getPlane_Menu(6) + "\n";}
-            else{master += "|  |     |  |     |                                                      =   ###    | |\n";}
-            if(waitlist.size() >= 7){master += "|  |     |  |     |                                                      =    #     | | " + waitlist.at(6).getPlane_Menu(7) + "\n";}
-            else{master += "|  |     |  |     |                                                      =    #     | |\n";}
-            if(waitlist.size() >= 8){master += "|  |     |  |     |                                                      =__________| | " + waitlist.at(7).getPlane_Menu(8) + "\n";}
-            else{master += "|  |     |  |     |                                                      =__________| |\n";}
-            if(waitlist.size() >= 9){master += "|  |     |  |     |                                                                   | Other planes waiting: " + to_string(waitlist.size() - 8) + "\n";}
-            else{master += "|  |     |  |     |                                                                   |\n";}
-            master += "|  |     |  |     |                                                                   |\n";
-            master += "|  |     |  |     |                                                                   |\n";
-            master += "|  |     |  |     |                 \\8\\     \\9\\     \\1\\     \\1\\      \\1\\     \\1\\      |\n";
-            master += "|  |     |  |     |                  \\ \\     \\ \\     \\0\\     \\1\\      \\2\\     \\3\\     |\n";
-            master += "|  |     |  |     |                ###################################################|\n";
-            master += "|  |     |  |     |               #                                                   |\n";
-            master += "|  |     |  |     |               #                                                   |\n";
-            master += "|  |     |  |     |               #                                                   |\n";
-            master += "|  |     |  |     |                ###################################################|\n";
-            master += "|  |  1  |  |  2  |                  / /     / /     / /     / /     / /      / /     |\n";
-            master += "|  |     |  |     |                 /6/     /5/     /4/     /3/     /2/      /1/      |\n";
-            master += "|   +++++    +++++                                                                    |\n";
-            master += "|                                                                                     |\n";
-            master += " -------------------------------------------------------------------------------------|\n";
+            master += " ---------------------------------------------------------------------------------------------| " + airport_name + "\n";
+            master += "|                                                                                             | Plane Wait List\n";
+            master += "|  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _          __________  | # |  Name  | FuL | S | Cargo Type \n";
+            if(waitlist.size() >= 1){master += "| +                                                                     +        |          | | " + waitlist.at(0).getPlane_Menu(1) + "\n";}
+            else{master += "| +                                                                     +        |          | |\n";}
+            if(waitlist.size() >= 2){master += "| + 3                                                                   +        |   Fire   | | " + waitlist.at(1).getPlane_Menu(2) + "\n";}
+            else{master += "| + 3                                                                   +        |   Fire   | |\n";}
+            if(waitlist.size() >= 3){master += "| +_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _+        |   Dpt.   | | " + waitlist.at(2).getPlane_Menu(3) + "\n";}
+            else{master += "| +_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _+        |   Dpt.   | |\n";}
+            if(waitlist.size() >= 4){master += "|                                                                                |          | | " + waitlist.at(3).getPlane_Menu(4) + "\n";}
+            else{master += "|                                                                                |          | |\n";}
+            if(waitlist.size() >= 5){master += "|   + + + + +    + + + + +                                                       |    #     | | " + waitlist.at(4).getPlane_Menu(5) + "\n";}
+            else{master += "|   + + + + +    + + + + +                                                       |    #     | |\n";}
+            if(waitlist.size() >= 6){master += "|  |         |  |         |                                                      =   ###    | | " + waitlist.at(5).getPlane_Menu(6) + "\n";}
+            else{master += "|  |         |  |         |                                                      =   ###    | |\n";}
+            if(waitlist.size() >= 7){master += "|  |         |  |         |                                                      =    #     | | " + waitlist.at(6).getPlane_Menu(7) + "\n";}
+            else{master += "|  |         |  |         |                                                      =    #     | |\n";}
+            if(waitlist.size() >= 8){master += "|  |         |  |         |                                                      =__________| | " + waitlist.at(7).getPlane_Menu(8) + "\n";}
+            else{master += "|  |         |  |         |                                                      =__________| |\n";}
+            if(waitlist.size() >= 9){master += "|  |         |  |         |                                                                   | Other planes waiting: " + to_string(waitlist.size() - 8) + "\n";}
+            else{master += "|  |         |  |         |                                                                   |\n";}
+            master += "|  |         |  |         |                                                                   |\n";
+            master += "|  |         |  |         |                                                                   | Commands\n";
+            master += "|  |         |  |         |                                                                   | L [waitlist] [runway] [terminal]\n";
+            master += "|  |         |  |         |             \\8\\      \\9\\      \\1\\      \\1\\       \\1\\      \\1\\     | T [terminal] [runway]\n";
+            master += "|  |         |  |         |              \\ \\      \\ \\      \\0\\      \\1\\       \\2\\      \\3\\    |\n";
+            master += "|  |         |  |         |             ######################################################|\n";
+            master += "|  |         |  |         |            #                                                      |\n";          
+            master += "|  |         |  |         |            #                                                      |\n";          
+            master += "|  |         |  |         |            #                                                      |\n";
+            master += "|  |         |  |         |             ######################################################|\n";          
+            master += "|  |    1    |  |    2    |              / /      / /      / /      / /      / /      / /     |\n";          
+            master += "|  |         |  |         |             /6/      /5/      /4/      /3/      /2/      /1/      |\n";
+            master += "|   + + + + +    + + + + +                                                                    |\n";          
+            master += "|                                                                                             |\n";          
+            master += " ---------------------------------------------------------------------------------------------|\n";
+            
+            
+            //plane ideas...
+            
+            //       __|__
+            //--@--@--(_)--@--@--   size 3
+            
+            //      _|_
+            //----oo(_)oo----   size 2
+            
+            //   _|_ 
+            //*--oOo--*   size 1
+            
         }
         
         void addPlane(plane input){
@@ -100,6 +127,12 @@ class graphics_airport{
         
         void removePlane(int pos){
             waitlist.erase(waitlist.begin() + (pos-1));
+        }
+        
+        void addTerminal(unsigned int pos){
+            if(pos < 14){
+                
+            }
         }
         
         vector<plane> getWaitlist(){
@@ -127,6 +160,21 @@ class graphics_airport{
         }
         
         void start_screen_off(){
+            master = string(50,'\n');
+            //master += " -------------------------------------------------------------------------------------|";
+            master += "_____________________________________________________________________________________\n";
+            master += "|                                                                                   |\n";
+            master += "|       ▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒ ▒▒▒▒▒▒╗ ▒▒▒╗   ▒▒▒ ▒▒ ▒▒▒╗   ▒▒ ╗▒▒▒▒▒╗ ▒▒╗                |\n";     
+            master += "|       ╚══▒▒╔══ ▒▒╔════ ▒▒╔══▒▒ ▒▒▒▒╗ ▒▒▒▒ ▒▒ ▒▒▒▒╗  ▒▒ ▒▒╔══▒▒ ▒▒║                |\n";
+            master += "|          ▒▒║   ▒▒▒▒▒╗  ▒▒▒▒▒▒╔ ▒▒╔▒▒▒▒╔▒▒ ▒▒ ▒▒╔▒▒╗ ▒▒ ▒▒▒▒▒▒▒ ▒▒║                |\n";
+            master += "|          ▒▒║   ▒▒╔══╝  ▒▒╔══▒▒ ▒▒║╚▒▒╔╝▒▒ ▒▒ ▒▒║╚▒▒╗▒▒ ▒▒╔══▒▒ ▒▒║                |\n";
+            master += "|          ▒▒║   ▒▒▒▒▒▒▒ ▒▒║  ▒▒ ▒▒║ ╚═╝ ▒▒ ▒▒ ▒▒║ ╚▒▒▒▒ ▒▒║  ▒▒ ▒▒▒▒▒▒▒╗           |\n";
+            master += "|          ╚═╝   ╚══════ ╚═╝  ╚═ ╚═╝     ╚═ ╚═ ╚═╝  ╚═══ ╚═╝  ╚═ ╚══════╝           |\n";
+            master += "|                                                                                   |\n";
+            master += "|                                                                                   |\n";
+            master += "|                            Press ENTER to play                                    |\n";
+            master += "|                                                                                   |\n";
+            master += "_____________________________________________________________________________________\n";
             
         }
     private:
@@ -139,7 +187,11 @@ class graphics_airport{
 
 
 
+
 int main(){
+    thread t1(test_thread);
+    t1.join();
+    
     vector<plane> inputp(20);
     for(int i = 0; i < inputp.size(); i++){
         inputp.at(i) = plane(i+1);    
@@ -167,10 +219,14 @@ int main(){
     int input = 1;
     while(input!=0){
         cout << test;
+        
         //test.repaint();
         test.start_screen_on();
         //test.addplane(plane(10));
-        cin.get();
+        pause(1);
+        cout << test;
+        test.start_screen_off();
+        pause(1);
     } 
 
     

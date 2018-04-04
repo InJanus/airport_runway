@@ -66,7 +66,7 @@ class plane{
             //ss >> spos;
             //ss<<fuel_level;
             //ss>>fuel_levels;
-            string temp = to_string(pos) + " : " + plane_name + "  Fuel Level:" + to_string(fuel_level) + " : Cargo Type: " +getCargo_Type(); 
+            string temp = to_string(pos) + " : " + plane_name + " : " + to_string(fuel_level) + " : " + to_string(getPlane_Size()) + " : " + getCargo_Type(); 
             return temp;
         }
         

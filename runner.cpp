@@ -1,5 +1,5 @@
 #include <iostream>
-#include <thread>
+
 //local functions
 #include "graphics_airport.cpp"
 #include "airport.cpp"
