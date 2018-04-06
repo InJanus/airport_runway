@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <thread>
 //local functions
 #include "graphics_airport.cpp"
 #include "airport.cpp"
@@ -42,6 +42,15 @@ int main(){
     
     //i am going to look up threads so we can run two things at once. i have done this once before.
     //i found somthing for threads and cloud 9 supports it so its a go!
+    
+    /////////////////////////////////////////////////////////
+    
+    //threads are unsucessful :(
+    
+    //there is still a way to get this to work
+    //using a text file as the command propt kind of thing
+    //put in commands to send it to the program
+    //i will figure that out and make some functions for it
     
     
 

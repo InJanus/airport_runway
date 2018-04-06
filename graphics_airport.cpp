@@ -23,11 +23,14 @@ class graphics_airport{
             airport_name = "My Airport";
             empty();
         }
-        graphics_airport(string name, vector<plane> waitlist){
+        graphics_airport(string name, vector<plane> waitlist,vector<bool> runwaylist, vector<bool> terminallist){
             graphics_airport();
             airport_name = name;
             this->waitlist = waitlist; 
             empty();
+            this->runwaylist = runwaylist;
+            this->terminallist = terminallist;
+            
         }
         
         friend ostream& operator<<(ostream &output, graphics_airport &a){
@@ -72,10 +75,10 @@ class graphics_airport{
             master += " ---------------------------------------------------------------------------------------------| " + airport_name + "\n";
             master += "|                                                                                             | Plane Wait List\n";
             master += "|  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _          __________  | # |  Name  | FuL | S | Cargo Type \n";
-            if(waitlist.size() >= 1){master += "| +                                                                     +        |          | | " + waitlist.at(0).getPlane_Menu(1) + "\n";}
-            else{master += "| +                                                                     +        |          | |\n";}
-            if(waitlist.size() >= 2){master += "| + 3                                                                   +        |   Fire   | | " + waitlist.at(1).getPlane_Menu(2) + "\n";}
-            else{master += "| + 3                                                                   +        |   Fire   | |\n";}
+            if(waitlist.size() >= 1){if(runwaylist.at(2) == true){master += "| +            _|_    ";}else{master += "| +                   ";}master += "                                                  +        |          | | " + waitlist.at(0).getPlane_Menu(1) + "\n";}
+            else{if(runwaylist.at(2) == true){master += "| +            _|_       ";}else{master += "| +               ";}master += "                                               +        |          | |\n";}
+            if(waitlist.size() >= 2){if(runwaylist.at(2) == true){master += "| + 3       *--oOo--* ";}else{master += "| + 3                 ";}master += "                                                  +        |   Fire   | | " + waitlist.at(1).getPlane_Menu(2) + "\n";}
+            else{if(runwaylist.at(2) == true){master += "| + 3       *--oOo--*    ";}else{master += "| + 3             ";}master += "                                               +        |   Fire   | |\n";}
             if(waitlist.size() >= 3){master += "| +_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _+        |   Dpt.   | | " + waitlist.at(2).getPlane_Menu(3) + "\n";}
             else{master += "| +_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _+        |   Dpt.   | |\n";}
             if(waitlist.size() >= 4){master += "|                                                                                |          | | " + waitlist.at(3).getPlane_Menu(4) + "\n";}
@@ -91,20 +94,50 @@ class graphics_airport{
             if(waitlist.size() >= 9){master += "|  |         |  |         |                                                                   | Other planes waiting: " + to_string(waitlist.size() - 8) + "\n";}
             else{master += "|  |         |  |         |                                                                   |\n";}
             master += "|  |         |  |         |                                                                   |\n";
-            master += "|  |         |  |         |                                                                   | Commands\n";
-            master += "|  |         |  |         |                                                                   | L [waitlist] [runway] [terminal]\n";
-            master += "|  |         |  |         |             \\8\\      \\9\\      \\1\\      \\1\\       \\1\\      \\1\\     | T [terminal] [runway]\n";
-            master += "|  |         |  |         |              \\ \\      \\ \\      \\0\\      \\1\\       \\2\\      \\3\\    |\n";
+            master += "|  |         |  |         |          ";
+            if(terminallist.at(6) == true){master += "   _|_   ";}else{master += "         ";}
+            if(terminallist.at(7) == true){master += "   _|_   ";}else{master += "         ";}
+            if(terminallist.at(8) == true){master += "   _|_   ";}else{master += "         ";}
+            if(terminallist.at(9) == true){master += "   _|_   ";}else{master += "         ";}
+            if(terminallist.at(10) == true){master += "   _|_   ";}else{master += "         ";}
+            if(terminallist.at(11) == true){master += "   _|_   ";}else{master += "         ";}
+            master += "   | Commands\n";
+            master += "|  |         |  |         |          ";
+            if(terminallist.at(9) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(7) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(8) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(9) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(10) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(11) == true){master += "*--oOo--*";}else{master += "         ";}
+            master += "   | <L -[waitlist] -[runway] -[terminal]>\n";
+            master += "|  |         |  |         |             \\7\\      \\8\\      \\9\\      \\1\\      \\1\\      \\1\\      | <T -[terminal] -[runway]>\n";
+            master += "|  |         |  |         |              \\ \\      \\ \\      \\ \\      \\0\\      \\1\\      \\2\\     |\n";
             master += "|  |         |  |         |             ######################################################|\n";
-            master += "|  |         |  |         |            #                                                      |\n";          
-            master += "|  |         |  |         |            #                                                      |\n";          
-            master += "|  |         |  |         |            #                                                      |\n";
-            master += "|  |         |  |         |             ######################################################|\n";          
-            master += "|  |    1    |  |    2    |              / /      / /      / /      / /      / /      / /     |\n";          
-            master += "|  |         |  |         |             /6/      /5/      /4/      /3/      /2/      /1/      |\n";
-            master += "|   + + + + +    + + + + +                                                                    |\n";          
-            master += "|                                                                                             |\n";          
-            master += " ---------------------------------------------------------------------------------------------|\n";
+            if(runwaylist.at(0) == true){master += "|  |   _|_   |  |";}else{master += "|  |         |  |";}
+            if(runwaylist.at(1) == true){master += "   _|_   |            #                                                      | \n";}else{master += "         |            #                                                      | \n";}
+            if(runwaylist.at(0) == true){master += "|  |*--oOo--*|  |";}else{master += "|  |         |  |";}
+            if(runwaylist.at(1) == true){master += "*--oOo--*|            #                                                      | \n";}else{master += "         |            #                                                      | \n";}
+            master += "|  |         |  |         |            #                                                      | \n";
+            master += "|  |         |  |         |             ######################################################|    \n";          
+            master += "|  |    1    |  |    2    |              / /      / /      / /      / /      / /      / /     | To send a command:\n";          
+            master += "|  |         |  |         |             /6/      /5/      /4/      /3/      /2/      /1/      | 1) Type your command into command_here.txt\n";
+            master += "|   + + + + +    + + + + +           ";
+            if(terminallist.at(5) == true){master += "   _|_   ";}else{master += "         ";}
+            if(terminallist.at(4) == true){master += "   _|_   ";}else{master += "         ";}
+            if(terminallist.at(3) == true){master += "   _|_   ";}else{master += "         ";}
+            if(terminallist.at(2) == true){master += "   _|_   ";}else{master += "         ";}
+            if(terminallist.at(1) == true){master += "   _|_   ";}else{master += "         ";}
+            if(terminallist.at(0) == true){master += "   _|_   ";}else{master += "         ";}
+            master += "   | 2) When done typing your command, save\n";          
+            master += "|                                    ";
+            if(terminallist.at(5) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(4) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(3) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(2) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(1) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(0) == true){master += "*--oOo--*";}else{master += "         ";}
+            master += "   | command_here.txt\n";          
+            master += " ---------------------------------------------------------------------------------------------| 3) The command gets sent to the program!\n";
             
             
             //plane ideas...
@@ -115,8 +148,8 @@ class graphics_airport{
             //      _|_
             //----oo(_)oo----   size 2
             
-            //   _|_ 
-            //*--oOo--*   size 1
+            //   _|_    
+            //*--oOo--*   size 1        foucusing on size one for trhe moment. 
             
         }
         
@@ -182,6 +215,8 @@ class graphics_airport{
         string master;
         string airport_name;
         vector<plane> waitlist;
+        vector<bool> runwaylist;
+        vector<bool> terminallist;
 };
 
 
@@ -189,15 +224,23 @@ class graphics_airport{
 
 
 int main(){
-    thread t1(test_thread);
-    t1.join();
+    //thread t1(test_thread);
+    //t1.join();
     
-    vector<plane> inputp(20);
+    vector<plane> inputp(50);
     for(int i = 0; i < inputp.size(); i++){
         inputp.at(i) = plane(i+1);    
     }
+    vector<bool> runway(3);
+    for(int i = 0; i < 3; i++){
+        runway.at(i) = rand()%2;
+    }
+    vector<bool> terminal(12);
+    for(int i = 0; i < 12; i++){
+        terminal.at(i) = rand()%2;
+    }
     
-    graphics_airport test("CVG Airport",inputp);
+    graphics_airport test("CVG Airport",inputp,runway,terminal);
     test.repaint();
     
     
@@ -215,7 +258,8 @@ int main(){
     
     
     //test.repaint();
-    
+    cout << test;
+    cin.get();
     int input = 1;
     while(input!=0){
         cout << test;
