@@ -12,7 +12,7 @@ void pause(int dur){
     while(temp > time(NULL));
 }
 
-string getCommand(string fileName){
+string getFileCommand(string fileName){
     string temp;
     ifstream myfile(fileName);
     //myfile.open();
@@ -42,11 +42,11 @@ void clearFile(string fileName){
     }
 }
 
-
+/*
 int main(){
     string temp;
     for(;;){
-        temp = getCommand("command_here.txt");
+        temp = getFileCommand("command_here.txt");
         cout << temp << endl;
         clearFile("command_here.txt");
         pause(1);
@@ -55,4 +55,5 @@ int main(){
     
     return 0;
 }
+*/
 

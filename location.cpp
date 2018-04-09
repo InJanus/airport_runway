@@ -32,27 +32,29 @@ class location{
         
         
         location(int terminal_name){
-            this->terminal_name = terminal_name;
+            //this->terminal_name = terminal_name;
             myplane = plane();
             myplane.setPlane_Name("");
             isfuct = true;
         }
         
         location(){
-            terminal_name = 0;
+            //terminal_name = 0;
             myplane = plane();
             myplane.setPlane_Name("");
             isfuct = true;
         }
         
         void addPlane(plane input){
-            if(myplane.getPlane_Name() == ""){
-                //add the plane
-                myplane = input;
-                
-            }else{
-                isfuct = false;
-                //location is not fuct
+            if(isfuct){
+                if(myplane.getPlane_Name() == ""){
+                    //add the plane
+                    myplane = input;
+                    
+                }else{
+                    isfuct = false;
+                    //location is not fuct
+                }
             }
         }
         
@@ -69,13 +71,21 @@ class location{
             isfuct = true;
         }
         
+        bool isOcc(){
+            return(myplane.getPlane_Name() != "");
+        }
+        
+        plane getPlane(){
+            return myplane;
+        }
+        
         
         
         
     
     private:    //declare your private data first
         //int terminalSize;
-        int terminal_name;    //just make it an int for the name// why is that?  //thats how i am refrencing them by // sounds good, just curious
+        //int terminal_name;    //just make it an int for the name// why is that?  //thats how i am refrencing them by // sounds good, just curious
         plane myplane;
         bool isfuct;
     

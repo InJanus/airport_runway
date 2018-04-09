@@ -1,35 +1,24 @@
 
 #include <iostream>
-#include <thread>
 
-#include "plane.cpp"
-//#include "airport.cpp"
+#include "location.cpp"
 
 using namespace std;
 //these will just be abunch of functions to help draw the airport using the plane class
-void pause(int dur){
-    int temp = time(NULL) + dur;
-    while(temp > time(NULL));
-}
-
-void test_thread(){
-    
-}
-
 
 class graphics_airport{
     public:
         graphics_airport(){
             airport_name = "My Airport";
-            empty();
+            //empty();
         }
         graphics_airport(string name, vector<plane> waitlist,vector<bool> runwaylist, vector<bool> terminallist){
-            graphics_airport();
             airport_name = name;
             this->waitlist = waitlist; 
             empty();
             this->runwaylist = runwaylist;
             this->terminallist = terminallist;
+            //myairport = airport(3,12);
             
         }
         
@@ -76,9 +65,9 @@ class graphics_airport{
             master += "|                                                                                             | Plane Wait List\n";
             master += "|  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _          __________  | # |  Name  | FuL | S | Cargo Type \n";
             if(waitlist.size() >= 1){if(runwaylist.at(2) == true){master += "| +            _|_    ";}else{master += "| +                   ";}master += "                                                  +        |          | | " + waitlist.at(0).getPlane_Menu(1) + "\n";}
-            else{if(runwaylist.at(2) == true){master += "| +            _|_       ";}else{master += "| +               ";}master += "                                               +        |          | |\n";}
+            else{if(runwaylist.at(2) == true){master += "| +            _|_       ";}else{master += "| +                      ";}master += "                                               +        |          | |\n";}
             if(waitlist.size() >= 2){if(runwaylist.at(2) == true){master += "| + 3       *--oOo--* ";}else{master += "| + 3                 ";}master += "                                                  +        |   Fire   | | " + waitlist.at(1).getPlane_Menu(2) + "\n";}
-            else{if(runwaylist.at(2) == true){master += "| + 3       *--oOo--*    ";}else{master += "| + 3             ";}master += "                                               +        |   Fire   | |\n";}
+            else{if(runwaylist.at(2) == true){master += "| + 3       *--oOo--*    ";}else{master += "| + 3                    ";}master += "                                               +        |   Fire   | |\n";}
             if(waitlist.size() >= 3){master += "| +_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _+        |   Dpt.   | | " + waitlist.at(2).getPlane_Menu(3) + "\n";}
             else{master += "| +_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _+        |   Dpt.   | |\n";}
             if(waitlist.size() >= 4){master += "|                                                                                |          | | " + waitlist.at(3).getPlane_Menu(4) + "\n";}
@@ -109,12 +98,12 @@ class graphics_airport{
             if(terminallist.at(9) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(10) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(11) == true){master += "*--oOo--*";}else{master += "         ";}
-            master += "   | land [waitlist] [runway] [terminal] \n";
-            master += "|  |         |  |         |             \\7\\      \\8\\      \\9\\      \\1\\      \\1\\      \\1\\      | takeoff [terminal] [runway]>\n";
-            master += "|  |         |  |         |              \\ \\      \\ \\      \\ \\      \\0\\      \\1\\      \\2\\     | clean [terminal/runway]\n";
-            master += "|  |         |  |         |             ######################################################|\n";
+            master += "   | land [waitlist] [runway]\n";
+            master += "|  |         |  |         |             \\7\\      \\8\\      \\9\\      \\1\\      \\1\\      \\1\\      | terminal [runway] [terminal]\n";
+            master += "|  |         |  |         |              \\ \\      \\ \\      \\ \\      \\0\\      \\1\\      \\2\\     | takeoff [terminal] [runway]\n";
+            master += "|  |         |  |         |             ######################################################| ton [runway]\n";
             if(runwaylist.at(0) == true){master += "|  |   _|_   |  |";}else{master += "|  |         |  |";}
-            if(runwaylist.at(1) == true){master += "   _|_   |            #                                                      | \n";}else{master += "         |            #                                                      | \n";}
+            if(runwaylist.at(1) == true){master += "   _|_   |            #                                                      | clean [terminal/runway]\n";}else{master += "         |            #                                                      | clean [terminal/runway]\n";}
             if(runwaylist.at(0) == true){master += "|  |*--oOo--*|  |";}else{master += "|  |         |  |";}
             if(runwaylist.at(1) == true){master += "*--oOo--*|            #                                                      | \n";}else{master += "         |            #                                                      | \n";}
             master += "|  |         |  |         |            #                                                      | \n";
@@ -152,21 +141,7 @@ class graphics_airport{
             //*--oOo--*   size 1        foucusing on size one for trhe moment. 
             
         }
-        
-        void addPlane(plane input){
-            waitlist.resize(waitlist.size()+1);
-            waitlist.at(waitlist.size()-1) = input;
-        }
-        
-        void removePlane(int pos){
-            waitlist.erase(waitlist.begin() + (pos-1));
-        }
-        
-        void addTerminal(unsigned int pos){
-            if(pos < 14){
-                
-            }
-        }
+    
         
         vector<plane> getWaitlist(){
             return waitlist;
@@ -210,10 +185,27 @@ class graphics_airport{
             master += "_____________________________________________________________________________________\n";
             
         }
+        
+        void setWaitList(vector<plane> waitlist){
+            this->waitlist = waitlist;
+        }
+        
+        void setData(vector<plane> waitlist, vector<bool> runwaylist, vector<bool> terminallist){
+            this->waitlist = waitlist; 
+            this->runwaylist = runwaylist;
+            this->terminallist = terminallist;
+        }
+        
+        
+        
+        
+        
+        
     private:
         
         string master;
         string airport_name;
+        //airport myairport;
         vector<plane> waitlist;
         vector<bool> runwaylist;
         vector<bool> terminallist;
@@ -222,22 +214,22 @@ class graphics_airport{
 
 
 
-
+/*
 int main(){
     //thread t1(test_thread);
     //t1.join();
     
-    vector<plane> inputp(50);
+    vector<plane> inputp(3);
     for(int i = 0; i < inputp.size(); i++){
         inputp.at(i) = plane(i+1);    
     }
     vector<bool> runway(3);
     for(int i = 0; i < 3; i++){
-        runway.at(i) = rand()%2;
+        runway.at(i) = false;
     }
     vector<bool> terminal(12);
     for(int i = 0; i < 12; i++){
-        terminal.at(i) = rand()%2;
+        terminal.at(i) = false;
     }
     
     graphics_airport test("CVG Airport",inputp,runway,terminal);
@@ -246,7 +238,7 @@ int main(){
     
     //test.removePlane(1);
     
-    test.addPlane(plane(100));
+    //test.addPlane(plane(100));
     //cout << "-------------------------------------" << endl;
     //for(int i = 0; i < test.getWaitlist().size(); i++){
         //cout << test.getWaitlist().at(i) << endl;
@@ -260,7 +252,8 @@ int main(){
     //test.repaint();
     cout << test;
     cin.get();
-    int input = 1;
+    //int input = 1;
+    /*
     while(input!=0){
         cout << test;
         
@@ -272,8 +265,10 @@ int main(){
         test.start_screen_off();
         pause(1);
     } 
+    */
 
     
-    return 0;
-}
+    //return 0;
+//}
+
 
