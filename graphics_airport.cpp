@@ -109,9 +109,9 @@ class graphics_airport{
             if(terminallist.at(9) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(10) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(11) == true){master += "*--oOo--*";}else{master += "         ";}
-            master += "   | <L -[waitlist] -[runway] -[terminal]>\n";
-            master += "|  |         |  |         |             \\7\\      \\8\\      \\9\\      \\1\\      \\1\\      \\1\\      | <T -[terminal] -[runway]>\n";
-            master += "|  |         |  |         |              \\ \\      \\ \\      \\ \\      \\0\\      \\1\\      \\2\\     |\n";
+            master += "   | land [waitlist] [runway] [terminal] \n";
+            master += "|  |         |  |         |             \\7\\      \\8\\      \\9\\      \\1\\      \\1\\      \\1\\      | takeoff [terminal] [runway]>\n";
+            master += "|  |         |  |         |              \\ \\      \\ \\      \\ \\      \\0\\      \\1\\      \\2\\     | clean [terminal/runway]\n";
             master += "|  |         |  |         |             ######################################################|\n";
             if(runwaylist.at(0) == true){master += "|  |   _|_   |  |";}else{master += "|  |         |  |";}
             if(runwaylist.at(1) == true){master += "   _|_   |            #                                                      | \n";}else{master += "         |            #                                                      | \n";}
