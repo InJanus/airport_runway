@@ -35,6 +35,7 @@ class location{
             //this->terminal_name = terminal_name;
             myplane = plane();
             myplane.setPlane_Name("");
+            myplane.setFuel_Level(1000);
             isfuct = true;
         }
         
@@ -42,6 +43,7 @@ class location{
             //terminal_name = 0;
             myplane = plane();
             myplane.setPlane_Name("");
+            myplane.setFuel_Level(1000);
             isfuct = true;
         }
         
@@ -70,12 +72,16 @@ class location{
             myplane.setPlane_Name("");
             isfuct = true;
         }
+
+        void makeNotFuct(){
+            isfuct = false;
+        }
         
         bool isOcc(){
             return(myplane.getPlane_Name() != "");
         }
         
-        plane getPlane(){
+        plane& getPlane(){
             return myplane;
         }
         

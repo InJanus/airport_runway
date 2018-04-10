@@ -14,8 +14,8 @@ class plane{
             plane_name = genRandomName();
             //plane_name = plane_name + ((char)rand()%26+65);// + ((int)rand()%8999+1000);
             plane_size = rand()%3+1;
-            fuel_level = rand()%998+1; //99999 - 1
-            cargo_type = rand()%3+1;
+            fuel_level = rand()%898+100; 
+            cargo_type = rand()%22+1;
             cargo_ammount = rand()%999+1;
         }
         
@@ -24,8 +24,8 @@ class plane{
             plane_name = genRandomName();
             //plane_name = plane_name + ((char)rand()%26+65);// + ((int)rand()%8999+1000);
             plane_size = rand()%3+1;
-            fuel_level = rand()%999+1;
-            cargo_type = rand()%3+1;
+            fuel_level = rand()%898+100;
+            cargo_type = rand()%22+1;
             cargo_ammount = rand()%999+1;
         }
         
@@ -54,7 +54,7 @@ class plane{
         void genNewPlane(){
             plane_name = genRandomName();
             plane_size = rand()%3+1;
-            fuel_level = rand()%999+1;
+            fuel_level = rand()%898+100;
             cargo_type = rand()%3+1;
             cargo_ammount = rand()%999+1;
         }
@@ -66,7 +66,14 @@ class plane{
             //ss >> spos;
             //ss<<fuel_level;
             //ss>>fuel_levels;
-            string temp = to_string(pos) + " : " + plane_name + " : " + to_string(fuel_level) + " : " + to_string(getPlane_Size()) + " : " + getCargo_Type(); 
+            string temp;
+            if(fuel_level < 10){
+                temp = to_string(pos) + " : " + plane_name + " :   " + to_string(fuel_level) + " : " + getCargo_Type(); 
+            }else if(fuel_level < 100){
+                temp = to_string(pos) + " : " + plane_name + " :  " + to_string(fuel_level) + " : " + getCargo_Type(); 
+            }else{
+                temp = to_string(pos) + " : " + plane_name + " : " + to_string(fuel_level) + " : " + getCargo_Type();
+            }
             return temp;
         }
         
@@ -97,6 +104,49 @@ class plane{
                     return "Goods";
                 case 3:
                     return "Military Supplies";
+                case 4:
+                    return "Human Remains";
+                case 5:
+                    return "Drugs";
+                case 6:
+                    return "The President";
+                case 7:
+                    return "Dogs";
+                case 8:
+                    return "Rail-Road Supplies";
+                case 9:
+                    return "Cats";
+                case 10:
+                    return "Food";
+                case 11:
+                    return "Snakes";
+                case 12:
+                    return "Lamas";
+                case 13:
+                    return "FireWorks";
+                case 14:
+                    return "Goats";
+                case 15:
+                    return "Black Market Goods";
+                case 16:
+                    return "The Devil";
+                case 17:
+                    return "Cat Food";
+                case 18:
+                    return "Dog Food";
+                case 19:
+                    return "Beer";
+                case 20:
+                    return "Vodkia";
+                case 21:
+                    return "Rum";
+                case 22:
+                    return "Space Pirates";
+                case 23:
+                    return "Pirates";
+
+                    
+
             }
         }
         

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <thread>
 //local functions
-#include "graphics_airport.cpp"
+//#include "graphics_airport.cpp"
 #include "airport.cpp"
 
 
@@ -10,6 +10,67 @@
 using namespace std;
 
 int main(){
+    
+    airport myairport = airport(3,12); //3 runways 12 terminals
+    myairport.addRandomPlane();
+    myairport.addRandomPlane();
+    myairport.addRandomPlane(); //start with 4 random planes
+    myairport.addRandomPlane();
+    int counter = 0;
+    int difficulty = 1;
+    //graphics_airport g_air = graphics_airport("CVG Airport",myairport.getRunway(),myairport.getTerminal());
+    
+    vector<plane> inputp(0);
+    vector<bool> runway(3);
+    vector<bool> terminal(12);
+    vector<bool> fuel(12);
+    string temp;
+    vector<string> status(4);
+    int thetime = 0;
+    
+    inputp = myairport.getWaitlist();
+    runway = myairport.getRunway();
+    terminal = myairport.getTerminal();
+    fuel = myairport.getFuel();
+    
+    graphics_airport g_air("CVG Airport",inputp,runway,terminal, fuel);
+    
+    //myairport.landPlane(1,1);
+    //myairport.landTerminal(1,1);
+    //myairport.takeoff(1,2);
+    //myairport.removeFromRunway(2);
+
+
+    
+    for(;;){
+        if((int)(rand()%99+1) <= difficulty){ //1% chance start
+            myairport.addRandomPlane();
+        }
+        if(counter >= 180){
+            counter = 0;
+            difficulty++;
+        }
+        temp = getFileCommand("command_here.txt");
+        clearFile("command_here.txt");
+        myairport.getCommand(temp);
+        myairport.action();
+        inputp = myairport.getWaitlist();
+        runway = myairport.getRunway();
+        terminal = myairport.getTerminal();
+        fuel = myairport.getFuel();
+        status = myairport.getStatus();
+        g_air.setData(inputp, runway, terminal, status.at(0), status.at(1), status.at(2), status.at(3), fuel);
+        g_air.repaint();
+        cout << g_air;
+        counter++;
+        thetime++;
+        pause(1);
+        
+    }
+    
+    return 0; 
+}
+
     //cout << repaint() << endl;
     
     //runner
@@ -27,8 +88,6 @@ int main(){
     
     
     //cout << "Hello World!" << endl;
-    return 0;
-}
 
 
 //COLE!!!!!!!!!!!!!!!!

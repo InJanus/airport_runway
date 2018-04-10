@@ -17,37 +17,129 @@ class airport{
             t.resize(0);
             w.resize(0);
             planes_crashed = 0;
-            people_lost = 0;
-            goods_lost = 0;
         }
         
         airport(int r_size, int t_size){
             r.resize(r_size);
+            r_time.resize(r_size);
             t.resize(t_size);
+            t_time.resize(r_size);
             w.resize(0);
             planes_crashed = 0;
-            people_lost = 0;
-            goods_lost = 0;
+            r_time_ts.resize(r_size);
+            t_time_ts.resize(r_size);
+            t_clean.resize(t_size);
+            r_clean.resize(r_size);
+            fireDispached = false;
+            fireKilled = false;
         }
         
         
         
-        void landPlane(int wait, int run){
+        void landPlane(int wait, int run, int term){
+            
             plane temp = w.at(wait-1);
             removePlane(wait);
             r.at(run-1).addPlane(temp);
+            r_time.at(run-1) = 15;
+            t_time.at(run-1) = term-1; //this needs to be term-1
+
+            if(!r.at(run-1).isFuctional()){
+                if(r_clean.at(run-1) > 0){
+                    fireKilled = true;
+                }
+                r.at(run-1).removePlane();
+                planes_crashed++;
+            }else{
+                if(rand()%49 == 0){
+                    r.at(run-1).removePlane();
+                    r.at(run-1).makeNotFuct();
+                    planes_crashed++;
+                }
+            }
+
+
+        }
+        /*
+        void clean(int num){
+            if(r.at())
+        }
+        */
+
+        vector<string> getStatus(){
+            vector<string> temp(4);
+
+            temp.at(0) = "Runways down: ";
+            for(int i = 0; i < 3; i++){
+                if(!r.at(i).isFuctional()){
+                    temp.at(0) += to_string(i+1);
+                    temp.at(0) += " ";
+                }
+            }
+            temp.at(1) = "Terminals Down: ";
+            for(int i = 0; i < 12; i++){
+                if(!t.at(i).isFuctional()){
+                    temp.at(1) += to_string(i+1);
+                    temp.at(1) += " ";
+                }
+            }
+            temp.at(2) = "Planes Crashed: " + to_string(planes_crashed);
+            if(fireKilled){
+                temp.at(3) = "FIRE DEPARTMENT HAS BEEN KILLED";
+            }else if(fireDispached){
+                temp.at(3) = "FIRE DEPARTMENT HAS BEEN DISPACHED";
+            }else{
+                temp.at(3) = "";
+            }
+
+            return temp;
+            
         }
         
         void landTerminal(int run, int term){
             plane temp = r.at(run-1).getPlane();
             r.at(run-1).removePlane();
-            t.at(term-1).addPlane(temp);
+            t.at(term).addPlane(temp);
+
+            if(!t.at(term).isFuctional()){
+                if(t_clean.at(term) > 0){
+                    fireKilled = true;
+                }
+                t.at(term).removePlane();
+                planes_crashed++;
+            }else{
+                if(rand()%49 == 0){
+                    t.at(term).removePlane();
+                    t.at(term).makeNotFuct();
+                    planes_crashed++;
+                }
+            }
         }
         
         void takeoff(int term, int run){
             plane temp = t.at(term-1).getPlane();
             t.at(term-1).removePlane();
             r.at(run-1).addPlane(temp);
+
+            r_time_ts.at(run-1) = 15;
+            t_time_ts.at(run-1) = run-1;          
+
+            if(!r.at(run-1).isFuctional()){
+                if(r_clean.at(run-1) > 0){
+                    fireKilled = true;
+                }
+                r.at(run-1).removePlane();
+                planes_crashed++;
+            }else{
+                if(r.at(run-1).getPlane().getFuel_Level() < 900){
+                    if(rand()%2 == 0){
+                        r.at(run-1).removePlane();
+                        r.at(run-1).makeNotFuct();
+                        planes_crashed++;
+                    }
+                }
+            }
+            
         }
         
         void removeFromRunway(int run){
@@ -58,32 +150,76 @@ class airport{
             string scom = "";
             int num1 = 0;
             int num2 = 0;
+            int num3 = 0;
             
             istringstream input(command);
             
             input >> scom; 
             input >> num1;//this gets all of the commands and splits them up 
             input >> num2;
-            
-            if(scom == "land"){
-                landPlane(num1,num2);
-            }else if(scom == "terminal"){
-                landTerminal(num1,num2);
-            }else if(scom == "takeoff"){
-                takeoff(num1,num2);
-            }else if(scom == "ton"){
-                removeFromRunway(num1);
+            input >> num3;
+
+            if((num1>12)&&(num1<1)){
+                scom = "";
+            }
+            if((num2>12)&&(num2<1)){
+                scom = "";
+            }
+            if((num3>12)&&(num3<1)){
+                scom = "";
             }
             
-            //cout <<scom << endl << num1 << endl << num2 << endl << num3 << endl;
+            if(scom == "land"){
+                if((num1>=1)&&(num1<=w.size())){
+                    if((num2<=3)&&(num2>=1)){
+                        if((num3<=12)&&(num3>=1)){
+                            landPlane(num1,num2, num3);
+                        }
+                    }
+                }
+            }else if(scom == "takeoff"){
+                if((num1<=12)&&(num1>=1)){
+                    if((num2<=3)&&(num2>=1)){
+                        takeoff(num1,num2);
+                    }
+                }
+            }else if(scom == "clean"){
+                if((num1<=12)&&(num1>=1)){
+                    clean(num1);
+                }
+            }
             
-            
-            
+        }
+
+        void clean(int num){
+            if(num < 4){
+                if(!r.at(num-1).isFuctional()){
+                    r_clean.at(num-1) = 60; //60 seconds
+                    fireDispached = true;
+                }
+            }else if(num <= 12){
+                if(!t.at(num-1).isFuctional()){
+                    t_clean.at(num-1) = 60;
+                    fireDispached = true;
+                }
+            }
+        }
+
+        void now_clean(int num){
+            if(num<4){
+                r.at(num-1).makeFuct();
+                fireDispached = false;
+            }else if(num < 12){
+                t.at(num-1).makeFuct();
+                fireDispached = false;
+            }
         }
         
         void refuel(){
             for(int i = 0; i < 12;i++){
-                
+                if(t.at(i).isOcc()){
+                    t.at(i).getPlane().setFuel_Level(t.at(i).getPlane().getFuel_Level()+50);
+                }
             }
         }
         
@@ -104,7 +240,6 @@ class airport{
         vector<bool> getRunway(){
             vector<bool> temp(r.size());
             for(int i = 0; i < r.size(); i++){
-                
                 temp.at(i) = r.at(i).isOcc();
                 //cout << temp.at(i);
             }
@@ -117,93 +252,79 @@ class airport{
             }
             return temp;
         }
+
+        vector<bool> getFuel(){
+            vector<bool> temp(12);
+            for(int i = 0; i < t.size(); i++){
+                if(t.at(i).isOcc()){
+                    if(t.at(i).getPlane().getFuel_Level() >= 1000){
+                        temp.at(i) = true;
+                    }else{
+                        temp.at(i) = false;
+                    }
+                }else{
+                    temp.at(i) = false;
+                }
+            }
+            return temp;
+        }
+
+        void action(){
+            refuel();
+            for(int i = 0; i < 3; i++){
+                cout << "_" << endl;   //for some reason for windows applications this stops the glitching, it only works here...
+                if(r_time.at(i) > 0){
+                    r_time.at(i)--;
+                }else if(r_time.at(i) == 0){
+                    landTerminal(i+1, t_time.at(i));
+                    r_time.at(i) = -1;
+                }
+                if(r_time_ts.at(i) > 0){
+                    r_time_ts.at(i)--;
+                }else if(r_time_ts.at(i) == 0){
+                    removeFromRunway(t_time_ts.at(i)+1);//remove plane from terminal here
+                    r_time_ts.at(i) = -1;
+                }
+                if(r_clean.at(i) > 0){
+                    r_clean.at(i)--;
+                }else if(r_clean.at(i) == 0){
+                    if(!fireKilled){now_clean(i+1);}
+                    r_clean.at(i) = -1;
+                }
+            }
+            for(int i = 0; i < w.size(); i++){
+                w.at(i).setFuel_Level(w.at(i).getFuel_Level()-2);
+                if(w.at(i).getFuel_Level() <= 0){
+                    planes_crashed++;
+                    removePlane(i+1);
+                }
+            }
+            for(int i = 0; i < 12; i++){
+                if(t_clean.at(i) > 0){
+                    t_clean.at(i)--;
+                }else if(t_clean.at(i) == 0){
+                    now_clean(i+1);
+                    t_clean.at(i) = -1;
+                }
+            }
+            
+        }
         
         
     
         
     private:
         vector<location> r;
+        vector<int> r_time;
+        vector<int> r_time_ts;
         vector<location> t;
+        vector<int> t_time;
+        vector<int> t_time_ts;
         vector<plane> w;
+        vector<int> r_clean;
+        vector<int> t_clean;
         int planes_crashed;
-        int people_lost;
-        int goods_lost;
+        bool fireDispached;
+        bool fireKilled;
 };
 
-int main(){
-    
-    airport myairport = airport(3,12); //one runway 3 terminals
-    myairport.addRandomPlane();
-    myairport.addRandomPlane();
-    
-    //graphics_airport g_air = graphics_airport("CVG Airport",myairport.getRunway(),myairport.getTerminal());
-    
-    vector<plane> inputp(0);
-    vector<bool> runway(3);
-    vector<bool> terminal(12);
-    string temp;
-    
-    inputp = myairport.getWaitlist();
-    runway = myairport.getRunway();
-    terminal = myairport.getTerminal();
-    
-    graphics_airport g_air("CVG Airport",inputp,runway,terminal);
-    
-    //myairport.landPlane(1,1);
-    //myairport.landTerminal(1,1);
-    //myairport.takeoff(1,2);
-    //myairport.removeFromRunway(2);
-    
-    for(;;){
-        if((int)(rand()%8+1) == 1){
-            myairport.addRandomPlane();
-        }
-            
-        temp = getFileCommand("command_here.txt");
-        clearFile("command_here.txt");
-        myairport.getCommand(temp);
-        inputp = myairport.getWaitlist();
-        runway = myairport.getRunway();
-        terminal = myairport.getTerminal();
-        myairport.refuel();
-        g_air.setData(inputp, runway, terminal);
-        g_air.repaint();
-        cout << g_air;
-        pause(1);
-        
-    }
-    
-    
-    
-    
-
-    
-    
-    
-    //myairport.addRandomPlane();
-    //test.addRandomPlane();
-    //test.removePlane(2);
-    //g_air.setWaitList(myairport.getWaitlist());
-    //g_air.repaint();
-    //cout << g_air;
-    //cin.get();
-    //test.landPlane(1,1);
-    //test.getCommand("test 1 2 3");
-    
-    //string temp;
-    //for(;;){
-        //temp = getFileCommand("command_here.txt");
-        //test.getCommand(temp);
-        //clearFile("command_here.txt");
-        
-        //if((int)(rand()%8+1) == 1){
-            //test.addRandomPlane();
-        //}
-        //test.getWaitlist();
-        //pause(1);
-    //}
-    
-    return 0;
-    
-    
-}
