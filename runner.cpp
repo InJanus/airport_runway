@@ -25,9 +25,12 @@ int main(){
     vector<bool> terminal(12);
     vector<bool> fuel(12);
     string temp;
-    vector<string> status(4);
+    vector<string> status(5);
     int thetime = 0;
-    
+    int crashed = 0;
+    int startscreencount = 0;
+    bool start = false;
+
     inputp = myairport.getWaitlist();
     runway = myairport.getRunway();
     terminal = myairport.getTerminal();
@@ -39,10 +42,27 @@ int main(){
     //myairport.landTerminal(1,1);
     //myairport.takeoff(1,2);
     //myairport.removeFromRunway(2);
-
-
+    while(start == false){
+        startscreencount++;
+        if(startscreencount%2){
+            g_air.start_screen_on();
+        }else{
+            g_air.start_screen_off();
+        }
+        
+        temp = getFileCommand("command_here.txt");
+        clearFile("command_here.txt");
+        if(temp != ""){
+            g_air.setName(temp);
+            start = true;
+        }
+        cout << g_air;
+        pause(1);
+        cout << "_" << endl;
+    }
     
-    for(;;){
+    
+    while(crashed < 20){
         if((int)(rand()%99+1) <= difficulty){ //1% chance start
             myairport.addRandomPlane();
         }
@@ -58,15 +78,23 @@ int main(){
         runway = myairport.getRunway();
         terminal = myairport.getTerminal();
         fuel = myairport.getFuel();
-        status = myairport.getStatus();
-        g_air.setData(inputp, runway, terminal, status.at(0), status.at(1), status.at(2), status.at(3), fuel);
+        status = myairport.getStatus(difficulty);
+        g_air.setData(inputp, runway, terminal, status.at(0), status.at(1), status.at(2), status.at(3),status.at(4), fuel);
         g_air.repaint();
         cout << g_air;
         counter++;
-        thetime++;
+        crashed = myairport.getCrashed();
         pause(1);
-        
     }
+
+    g_air.endscreen_crash();
+    cout << g_air;
+    cin.get();
+
+
+
+    //this is where you output the achevements...
+    //if i have time i can do it
     
     return 0; 
 }

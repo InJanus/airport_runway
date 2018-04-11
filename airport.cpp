@@ -66,8 +66,8 @@ class airport{
         }
         */
 
-        vector<string> getStatus(){
-            vector<string> temp(4);
+        vector<string> getStatus(int difficulty){
+            vector<string> temp(5);
 
             temp.at(0) = "Runways down: ";
             for(int i = 0; i < 3; i++){
@@ -87,10 +87,11 @@ class airport{
             if(fireKilled){
                 temp.at(3) = "FIRE DEPARTMENT HAS BEEN KILLED";
             }else if(fireDispached){
-                temp.at(3) = "FIRE DEPARTMENT HAS BEEN DISPACHED";
+                temp.at(3) = "FIRE DEPARTMENT HAS BEEN DISPATCHED";
             }else{
                 temp.at(3) = "";
             }
+            temp.at(4) = "Level: " + to_string(difficulty);
 
             return temp;
             
@@ -192,12 +193,13 @@ class airport{
         }
 
         void clean(int num){
-            if(num < 4){
+            if(num<4){
                 if(!r.at(num-1).isFuctional()){
                     r_clean.at(num-1) = 60; //60 seconds
                     fireDispached = true;
                 }
-            }else if(num <= 12){
+            }
+            if(!fireDispached){
                 if(!t.at(num-1).isFuctional()){
                     t_clean.at(num-1) = 60;
                     fireDispached = true;
@@ -206,12 +208,17 @@ class airport{
         }
 
         void now_clean(int num){
-            if(num<4){
-                r.at(num-1).makeFuct();
-                fireDispached = false;
-            }else if(num < 12){
-                t.at(num-1).makeFuct();
-                fireDispached = false;
+            if(num < 4){
+                if(!r.at(num-1).isFuctional()){
+                    r.at(num-1).makeFuct();
+                    fireDispached = false;
+                }
+            }
+            if(fireDispached){
+                if(!t.at(num-1).isFuctional()){
+                    t.at(num-1).makeFuct();
+                    fireDispached = false;
+                }
             }
         }
         
@@ -308,6 +315,10 @@ class airport{
                 }
             }
             
+        }
+
+        int getCrashed(){
+            return planes_crashed;
         }
         
         

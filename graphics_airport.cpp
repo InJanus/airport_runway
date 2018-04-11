@@ -25,6 +25,10 @@ class graphics_airport{
             status4 = "";
             
         }
+
+        void setName(string airport_name){
+            this->airport_name = airport_name;
+        }
         
         friend ostream& operator<<(ostream &output, graphics_airport &a){
             output << a.master;
@@ -96,7 +100,7 @@ class graphics_airport{
             if(terminallist.at(11) == true){master += "   _|_   ";}else{master += "         ";}
             master += "   | land [waitlist] [runway] [terminal]\n";
             master += "|  |         |  |         |          ";
-            if(terminallist.at(9) == true){master += "*--oOo--*";}else{master += "         ";}
+            if(terminallist.at(6) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(7) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(8) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(9) == true){master += "*--oOo--*";}else{master += "         ";}
@@ -126,8 +130,8 @@ class graphics_airport{
             if(terminalfuel.at(0) == true){master += "D     ";}else{master += "      ";}
             master += "| " + status3 + "\n";
             master += "|  |         |  |         |             ######################################################| " + status4 + "\n";          
-            master += "|  |    1    |  |    2    |              / /      / /      / /      / /      / /      / /     | \n";          
-            master += "|  |         |  |         |             /6/      /5/      /4/      /3/      /2/      /1/      | 1) Type your command into command_here.txt\n";
+            master += "|  |    1    |  |    2    |              / /      / /      / /      / /      / /      / /     | " + status5 + "\n";          
+            master += "|  |         |  |         |             /6/      /5/      /4/      /3/      /2/      /1/      | \n";
             master += "|   + + + + +    + + + + +           ";
             if(terminallist.at(5) == true){master += "   _|_   ";}else{master += "         ";}
             if(terminallist.at(4) == true){master += "   _|_   ";}else{master += "         ";}
@@ -135,7 +139,7 @@ class graphics_airport{
             if(terminallist.at(2) == true){master += "   _|_   ";}else{master += "         ";}
             if(terminallist.at(1) == true){master += "   _|_   ";}else{master += "         ";}
             if(terminallist.at(0) == true){master += "   _|_   ";}else{master += "         ";}
-            master += "   | 2) When done typing your command, save\n";          
+            master += "   | 1) Type your command into command_here.txt\n";          
             master += "|                                    ";
             if(terminallist.at(5) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(4) == true){master += "*--oOo--*";}else{master += "         ";}
@@ -143,8 +147,8 @@ class graphics_airport{
             if(terminallist.at(2) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(1) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(0) == true){master += "*--oOo--*";}else{master += "         ";}
-            master += "   | command_here.txt\n";          
-            master += " ---------------------------------------------------------------------------------------------| 3) The command gets sent to the program!\n";
+            master += "   | 2) Save command_here.txt\n";          
+            master += " ------------------------------Game Ends when you Crash 20 planes-----------------------------| 3) The command gets sent to the program!\n";
             
             
             //plane ideas...
@@ -160,6 +164,25 @@ class graphics_airport{
             
         }
     
+
+        void endscreen_crash(){
+            master = string(50,'\n');
+            master += "                                                  Congratulations! You crashed 20 planes!                                \n";
+            master += "                                               You have lost your job as air-traffic control                              \n";
+            master += "\n";
+            master += "                                                                    |                                                    \n";
+            master += "                                                                    |                                                    \n";
+            master += "                                                                  .-'-.                                                  \n";
+            master += "                                                                 ' ___ '                                                 \n";
+            master += "                                                       ---------'  .-.  '---------                                       \n";
+            master += "                                       _________________________'  '-'  '_________________________                       \n";
+            master += "                                        ''''''-|---|--/    \\==][^',_m_,'^][==/    \\--|---|-''''''                        \n";
+            master += "                                                      \\    /  ||/   H   \\||  \\    /                                      \n";
+            master += "                                                       '--'   OO   O|O   OO   '--'                                       \n";
+            master += "\n";
+            master += "                                                           Press ENTER to exit                                           \n";
+            master += string(8, '\n');
+        }
         
         vector<plane> getWaitlist(){
             return waitlist;
@@ -167,40 +190,36 @@ class graphics_airport{
         
         void start_screen_on(){
             master = string(50,'\n');
-            //master += " -------------------------------------------------------------------------------------|";
-            master += "_____________________________________________________________________________________\n";
-            master += "|                                                                                   |\n";
-            master += "|       ████████ ███████ ██████╗ ███╗   ███ ██ ███╗   ██ ╗█████╗ ██╗                |\n";     
-            master += "|       ╚══██╔══ ██╔════ ██╔══██ ████╗ ████ ██ ████╗  ██ ██╔══██ ██║                |\n";
-            master += "|          ██║   █████╗  ██████╔ ██╔████╔██ ██ ██╔██╗ ██ ███████ ██║                |\n";
-            master += "|          ██║   ██╔══╝  ██╔══██ ██║╚██╔╝██ ██ ██║╚██╗██ ██╔══██ ██║                |\n";
-            master += "|          ██║   ███████ ██║  ██ ██║ ╚═╝ ██ ██ ██║ ╚████ ██║  ██ ███████╗           |\n";
-            master += "|          ╚═╝   ╚══════ ╚═╝  ╚═ ╚═╝     ╚═ ╚═ ╚═╝  ╚═══ ╚═╝  ╚═ ╚══════╝           |\n";
-            master += "|                                                                                   |\n";
-            master += "|                                                                                   |\n";
-            master += "|                            Command START to play                                  |\n";
-            master += "|                                                                                   |\n";
-            master += "_____________________________________________________________________________________\n";
-            
+            master += "                             _____________________________________________________________________________________\n";
+            master += "                             #                _______                      _                _                    #\n";
+            master += "                             #               |__   __|                    (_)              | |                   #\n";
+            master += "                             #                  | |  ___  _ __  _ __ ___   _  _ __    __ _ | |                   #\n";
+            master += "                             #                  | | / _ \\| '__|| '_ ` _ \\ | || '_ \\  / _` || |                   #\n";
+            master += "                             #                  | ||  __/| |   | | | | | || || | | || (_| || |                   #\n";
+            master += "                             #                  |_| \\___||_|   |_| |_| |_||_||_| |_| \\__,_||_|                   #\n";
+            master += "                             #                                                                                   #\n";
+            master += "                             #                            Enter your airport name                                #\n";
+            master += "                             #                         in command_here.txt and save                              #\n";
+            master += "                             _____________________________________________________________________________________\n";
+            master += string(8,'\n');
             
         }
         
         void start_screen_off(){
             master = string(50,'\n');
             //master += " -------------------------------------------------------------------------------------|";
-            master += "_____________________________________________________________________________________\n";
-            master += "|                                                                                   |\n";
-            master += "|       ▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒ ▒▒▒▒▒▒╗ ▒▒▒╗   ▒▒▒ ▒▒ ▒▒▒╗   ▒▒ ╗▒▒▒▒▒╗ ▒▒╗                |\n";     
-            master += "|       ╚══▒▒╔══ ▒▒╔════ ▒▒╔══▒▒ ▒▒▒▒╗ ▒▒▒▒ ▒▒ ▒▒▒▒╗  ▒▒ ▒▒╔══▒▒ ▒▒║                |\n";
-            master += "|          ▒▒║   ▒▒▒▒▒╗  ▒▒▒▒▒▒╔ ▒▒╔▒▒▒▒╔▒▒ ▒▒ ▒▒╔▒▒╗ ▒▒ ▒▒▒▒▒▒▒ ▒▒║                |\n";
-            master += "|          ▒▒║   ▒▒╔══╝  ▒▒╔══▒▒ ▒▒║╚▒▒╔╝▒▒ ▒▒ ▒▒║╚▒▒╗▒▒ ▒▒╔══▒▒ ▒▒║                |\n";
-            master += "|          ▒▒║   ▒▒▒▒▒▒▒ ▒▒║  ▒▒ ▒▒║ ╚═╝ ▒▒ ▒▒ ▒▒║ ╚▒▒▒▒ ▒▒║  ▒▒ ▒▒▒▒▒▒▒╗           |\n";
-            master += "|          ╚═╝   ╚══════ ╚═╝  ╚═ ╚═╝     ╚═ ╚═ ╚═╝  ╚═══ ╚═╝  ╚═ ╚══════╝           |\n";
-            master += "|                                                                                   |\n";
-            master += "|                                                                                   |\n";
-            master += "|                            Press ENTER to play                                    |\n";
-            master += "|                                                                                   |\n";
-            master += "_____________________________________________________________________________________\n";
+            master += "                             *************************************************************************************\n";
+            master += "                             |                _______                      _                _                    |\n";
+            master += "                             |               |__   __|                    (_)              | |                   |\n";
+            master += "                             |                  | |  ___  _ __  _ __ ___   _  _ __    __ _ | |                   |\n";
+            master += "                             |                  | | / _ \\| '__|| '_ ` _ \\ | || '_ \\  / _` || |                   |\n";
+            master += "                             |                  | ||  __/| |   | | | | | || || | | || (_| || |                   |\n";
+            master += "                             |                  |_| \\___||_|   |_| |_| |_||_||_| |_| \\__,_||_|                   |\n";
+            master += "                             |                                                                                   |\n";
+            master += "                             |                            Enter your airport name                                |\n";
+            master += "                             |                         in command_here.txt and save                              |\n";
+            master += "                             *************************************************************************************\n";
+            master += string(8, '\n');
             
         }
         
@@ -208,7 +227,7 @@ class graphics_airport{
             this->waitlist = waitlist;
         }
         
-        void setData(vector<plane> waitlist, vector<bool> runwaylist, vector<bool> terminallist, string status1,string status2,string status3, string status4, vector<bool> terminalfuel){
+        void setData(vector<plane> waitlist, vector<bool> runwaylist, vector<bool> terminallist, string status1,string status2,string status3, string status4, string status5, vector<bool> terminalfuel){
             this->waitlist = waitlist; 
             this->runwaylist = runwaylist;
             this->terminallist = terminallist;
@@ -217,6 +236,7 @@ class graphics_airport{
             this->status2 = status2;
             this->status3 = status3;
             this->status4 = status4;
+            this->status5 = status5;
         }
         
         
@@ -232,6 +252,7 @@ class graphics_airport{
         string status2;
         string status3;
         string status4;
+        string status5;
         //airport myairport;
         vector<plane> waitlist;
         vector<bool> runwaylist;
