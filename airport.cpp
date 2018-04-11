@@ -193,31 +193,35 @@ class airport{
         }
 
         void clean(int num){
-            if(num<4){
-                if(!r.at(num-1).isFuctional()){
-                    r_clean.at(num-1) = 60; //60 seconds
-                    fireDispached = true;
+            if(!fireKilled){
+                if(num<4){
+                    if(!r.at(num-1).isFuctional()){
+                        r_clean.at(num-1) = 60; //60 seconds
+                        fireDispached = true;
+                    }
                 }
-            }
-            if(!fireDispached){
-                if(!t.at(num-1).isFuctional()){
-                    t_clean.at(num-1) = 60;
-                    fireDispached = true;
+                if(!fireDispached){
+                    if(!t.at(num-1).isFuctional()){
+                        t_clean.at(num-1) = 60;
+                        fireDispached = true;
+                    }
                 }
             }
         }
 
         void now_clean(int num){
-            if(num < 4){
-                if(!r.at(num-1).isFuctional()){
-                    r.at(num-1).makeFuct();
-                    fireDispached = false;
+            if(!fireKilled){
+                if(num < 4){
+                    if(!r.at(num-1).isFuctional()){
+                        r.at(num-1).makeFuct();
+                        fireDispached = false;
+                    }
                 }
-            }
-            if(fireDispached){
-                if(!t.at(num-1).isFuctional()){
-                    t.at(num-1).makeFuct();
-                    fireDispached = false;
+                if(fireDispached){
+                    if(!t.at(num-1).isFuctional()){
+                        t.at(num-1).makeFuct();
+                        fireDispached = false;
+                    }
                 }
             }
         }
