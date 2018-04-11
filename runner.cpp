@@ -24,6 +24,8 @@ int main(){
     vector<bool> runway(3);
     vector<bool> terminal(12);
     vector<bool> fuel(12);
+    vector<bool> rop(3);
+    vector<bool> top(12);
     string temp;
     vector<string> status(5);
     int thetime = 0;
@@ -79,7 +81,9 @@ int main(){
         terminal = myairport.getTerminal();
         fuel = myairport.getFuel();
         status = myairport.getStatus(difficulty);
-        g_air.setData(inputp, runway, terminal, status.at(0), status.at(1), status.at(2), status.at(3),status.at(4), fuel);
+        rop = myairport.getROP();
+        top = myairport.getTOP();
+        g_air.setData(inputp, runway, terminal, status.at(0), status.at(1), status.at(2), status.at(3),status.at(4), fuel, rop, top);
         g_air.repaint();
         cout << g_air;
         counter++;

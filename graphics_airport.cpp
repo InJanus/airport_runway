@@ -74,8 +74,9 @@ class graphics_airport{
             master += "|  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _          __________  | # |  Name  | FuL | Cargo Type \n";
             if(waitlist.size() >= 1){if(runwaylist.at(2) == true){master += "| +            _|_    ";}else{master += "| +                   ";}master += "                                                  +        |          | | " + waitlist.at(0).getPlane_Menu(1) + "\n";}
             else{if(runwaylist.at(2) == true){master += "| +            _|_       ";}else{master += "| +                      ";}master += "                                               +        |          | |\n";}
-            if(waitlist.size() >= 2){if(runwaylist.at(2) == true){master += "| + 3       *--oOo--* ";}else{master += "| + 3                 ";}master += "                                                  +        |   Fire   | | " + waitlist.at(1).getPlane_Menu(2) + "\n";}
-            else{if(runwaylist.at(2) == true){master += "| + 3       *--oOo--*    ";}else{master += "| + 3                    ";}master += "                                               +        |   Fire   | |\n";}
+            if(runwayop.at(2) == true){master += "| + 3 ";}else{master += "| + X ";}
+            if(waitlist.size() >= 2){if(runwaylist.at(2) == true){master += "      *--oOo--* ";}else{master += "                ";}master += "                                                  +        |   Fire   | | " + waitlist.at(1).getPlane_Menu(2) + "\n";}
+            else{if(runwaylist.at(2) == true){master += "      *--oOo--*    ";}else{master += "                   ";}master += "                                               +        |   Fire   | |\n";}
             if(waitlist.size() >= 3){master += "| +_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _+        |   Dpt.   | | " + waitlist.at(2).getPlane_Menu(3) + "\n";}
             else{master += "| +_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _+        |   Dpt.   | |\n";}
             if(waitlist.size() >= 4){master += "|                                                                                |          | | " + waitlist.at(3).getPlane_Menu(4) + "\n";}
@@ -107,8 +108,19 @@ class graphics_airport{
             if(terminallist.at(10) == true){master += "*--oOo--*";}else{master += "         ";}
             if(terminallist.at(11) == true){master += "*--oOo--*";}else{master += "         ";}
             master += "   | takeoff [terminal] [runway]\n";
-            master += "|  |         |  |         |             \\7\\      \\8\\      \\9\\      \\1\\      \\1\\      \\1\\      | clean [terminal/runway]\n";
-            master += "|  |         |  |         |              \\ \\      \\ \\      \\ \\      \\0\\      \\1\\      \\2\\     | \n";
+            master += "|  |         |  |         |             ";
+            if(terminalop.at(6) == true){master += "\\7\\      ";}else{master += "\\X\\      ";}
+            if(terminalop.at(7) == true){master += "\\8\\      ";}else{master += "\\X\\      ";}
+            if(terminalop.at(8) == true){master += "\\9\\      ";}else{master += "\\X\\      ";}
+            if(terminalop.at(9) == true){master += "\\1\\      ";}else{master += "\\X\\      ";}
+            if(terminalop.at(10) == true){master += "\\1\\      ";}else{master += "\\X\\      ";}
+            if(terminalop.at(11) == true){master += "\\1\\      ";}else{master += "\\X\\      ";}
+            master += "| clean [terminal/runway]\n";
+            master += "|  |         |  |         |              \\ \\      \\ \\      \\ \\      ";
+            if(terminalop.at(9) == true){master += "\\0\\      ";}else{master += "\\ \\      ";}
+            if(terminalop.at(10) == true){master += "\\1\\      ";}else{master += "\\ \\      ";}
+            if(terminalop.at(11) == true){master += "\\2\\     ";}else{master += "\\ \\     ";}
+            master += "| \n";
             master += "|  |         |  |         |             ######################################################| \n";
             if(runwaylist.at(0) == true){master += "|  |   _|_   |  |";}else{master += "|  |         |  |";}
             if(runwaylist.at(1) == true){master += "   _|_   |            #   ";}else{master += "         |            #   ";}
@@ -129,9 +141,17 @@ class graphics_airport{
             if(terminalfuel.at(1) == true){master += "D        ";}else{master += "         ";}
             if(terminalfuel.at(0) == true){master += "D     ";}else{master += "      ";}
             master += "| " + status3 + "\n";
-            master += "|  |         |  |         |             ######################################################| " + status4 + "\n";          
-            master += "|  |    1    |  |    2    |              / /      / /      / /      / /      / /      / /     | " + status5 + "\n";          
-            master += "|  |         |  |         |             /6/      /5/      /4/      /3/      /2/      /1/      | \n";
+            master += "|  |         |  |         |             ######################################################| " + status4 + "\n"; 
+            if(runwayop.at(0) == true){master += "|  |    1";}else{master += "|  |    X";}
+            if(runwayop.at(1) == true){master += "    |  |    2";}else{master += "    |  |    X";}      
+            master += "    |              / /      / /      / /      / /      / /      / /     | " + status5 + "\n";          
+            master += "|  |         |  |         |             ";
+            if(terminalop.at(5) == true){master += "/6/      ";}else{master += "/X/      ";}
+            if(terminalop.at(4) == true){master += "/5/      ";}else{master += "/X/      ";}
+            if(terminalop.at(3) == true){master += "/4/      ";}else{master += "/X/      ";}
+            if(terminalop.at(2) == true){master += "/3/      ";}else{master += "/X/      ";}
+            if(terminalop.at(1) == true){master += "/2/      ";}else{master += "/X/      ";}
+            if(terminalop.at(0) == true){master += "/1/      | \n";}else{master += "/X/      | \n";}
             master += "|   + + + + +    + + + + +           ";
             if(terminallist.at(5) == true){master += "   _|_   ";}else{master += "         ";}
             if(terminallist.at(4) == true){master += "   _|_   ";}else{master += "         ";}
@@ -227,7 +247,7 @@ class graphics_airport{
             this->waitlist = waitlist;
         }
         
-        void setData(vector<plane> waitlist, vector<bool> runwaylist, vector<bool> terminallist, string status1,string status2,string status3, string status4, string status5, vector<bool> terminalfuel){
+        void setData(vector<plane> waitlist, vector<bool> runwaylist, vector<bool> terminallist, string status1,string status2,string status3, string status4, string status5, vector<bool> terminalfuel, vector<bool> runwayop, vector<bool> terminalop){
             this->waitlist = waitlist; 
             this->runwaylist = runwaylist;
             this->terminallist = terminallist;
@@ -237,6 +257,8 @@ class graphics_airport{
             this->status3 = status3;
             this->status4 = status4;
             this->status5 = status5;
+            this->runwayop = runwayop;
+            this->terminalop = terminalop;
         }
         
         
@@ -258,6 +280,8 @@ class graphics_airport{
         vector<bool> runwaylist;
         vector<bool> terminallist;
         vector<bool> terminalfuel;
+        vector<bool> runwayop;
+        vector<bool> terminalop;
 };
 
 

@@ -96,6 +96,21 @@ class airport{
             return temp;
             
         }
+
+        vector<bool> getROP(){
+            vector<bool> temp(3);
+            for(int i = 0; i < 3; i++){
+                temp.at(i) = r.at(i).isFuctional();
+            }
+            return temp;
+        }
+        vector<bool> getTOP(){
+            vector<bool> temp(12);
+            for(int i = 0; i < 12; i++){
+                temp.at(i) = t.at(i).isFuctional();
+            }
+            return temp;
+        }
         
         void landTerminal(int run, int term){
             plane temp = r.at(run-1).getPlane();
